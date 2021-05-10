@@ -1,66 +1,43 @@
-let board = [
-  ["_", "_", "_"],
-  ["_", "_", "_"],
-  ["_", "_", "_"],
-];
+let board = makeBoard(5);
 
 let x = 0;
 let y = 0;
 let turn = true;
-let end = 9;
+let end = board.length * board.length;
 let start = 0;
+// Make board And Start game ===================================================
+function makeBoard(size) {
+  let board = new Array(size);
+  let row = new Array(size);
 
-function theGame() {
-  x = Math.floor(Math.random() * 3);
-  y = Math.floor(Math.random() * 3);
-  if (start !== end) {
-    if (board[x][y] === "_") {
-      if (turn) {
-        board[x][y] = "X";
-        turn = false;
-        start++;
-        printBoard();
-        if (checkIfWin(board)) {
-          console.log(checkIfWin(board));
-          return;
-        }
-        theGame();
-      } else {
-        board[x][y] = "O";
-        turn = true;
-        start++;
-        printBoard();
-        if (checkIfWin(board)) {
-          console.log(checkIfWin(board));
-          return;
-        }
-        theGame();
-      }
-    } else {
-      theGame();
-    }
-  } else {
-    printBoard();
-    if (!checkIfWin(board)) {
-      return "Draw";
-    } else {
-      console.log(checkIfWin(board));
+  for (let i = 0; i < board.length; i++) {
+    board[i] = [];
+    for (let j = 0; j < row.length; j++) {
+      board[i].push("_");
     }
   }
+  return board;
 }
 theGame();
+// =============================================================================
 
 // Print board
-function printBoard() {
-  console.log(
-    board[0].join("   ") +
-      "\n" +
-      board[1].join("   ") +
-      "\n" +
-      board[2].join("   ") +
-      "\n"
-  );
+function printBoard(gameBoard) {
+  let str = "";
+  for (let i = 0; i < gameBoard.length; i++) {
+    str += gameBoard[i].join("    ") + "\n";
+  }
+  console.log(str);
 }
+
+// console.log(
+//   gameBoard[0].join("   ") +
+//     "\n" +
+//     gameBoard[1].join("   ") +
+//     "\n" +
+//     gameBoard[2].join("   ") +
+//     "\n"
+// );
 
 // CHECK IF SOMEONE WIN
 
@@ -115,3 +92,60 @@ function checkIfWin(gameBoard) {
   }
   return winner ? winner : false;
 }
+
+// START GAME
+
+function theGame() {
+  x = Math.floor(Math.random() * board.length);
+  y = Math.floor(Math.random() * board.length);
+  if (start !== end) {
+    if (board[x][y] === "_") {
+      if (turn) {
+        board[x][y] = "X";
+        turn = false;
+        start++;
+        printBoard(board);
+        if (checkIfWin(board)) {
+          console.log(checkIfWin(board));
+          return;
+        }
+        theGame();
+      } else {
+        board[x][y] = "O";
+        turn = true;
+        start++;
+        printBoard(board);
+        if (checkIfWin(board)) {
+          console.log(checkIfWin(board));
+          return;
+        }
+        theGame();
+      }
+    } else {
+      theGame();
+    }
+  } else {
+    printBoard(board);
+    if (!checkIfWin(board)) {
+      console.log("Draw");
+      return "Draw";
+    } else {
+      console.log(checkIfWin(board));
+    }
+  }
+}
+
+// let isGameFinished = false;
+
+// while (!isGameFinished) {
+//   let x = Math.random() * 2;
+//   let y = Math.random() * 2;
+
+//   while (board[x][y] !== "_") {
+//     x = Math.random() * 2;
+//     y = Math.random() * 2;
+//   }
+
+//   board[x][y] = "x";
+//   checkGameStatus(board);
+// }
